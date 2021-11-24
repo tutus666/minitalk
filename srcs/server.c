@@ -1,4 +1,4 @@
-#include "includes/minitalk.h"
+#include "../includes/minitalk.h"
 
 static void	add_char(char c, int byte)
 {
@@ -24,7 +24,6 @@ static void	add_char(char c, int byte)
 		ft_putstr_fd("\n", 1);
 		free(s);
 	}
-	return (0);
 }
 
 static void	signal_handler(int sig)
@@ -54,7 +53,9 @@ int	main(void)
 	s.sa_handler = signal_handler;
 	sigemptyset(&s.sa_mask);
 	s.sa_flags = 0;
-	printf("Server's PID : %d\n", getpid());
+	ft_putstr_fd("Server's PID : ", 1);
+	ft_putnbr_fd(getpid(), 1);
+	ft_putstr_fd("\n", 1);
 	sigaction(SIGUSR1, &s, NULL);
 	sigaction(SIGUSR2, &s, NULL);
 	while (1)

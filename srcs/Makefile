@@ -20,8 +20,8 @@ CFLAGS = -Wall -Wextra -Werror
 	${CC} ${CFLAGS} -c -I./includes/ $< -o ${<:.c=.o}
 
 ${NAME}:
-	make -C ./utils/
-	cp ./utils/libft.a ${NAME}
+	make -C ./../utils/
+	cp ./../utils/libft.a ${NAME}
 	make ${SERVER}
 	make ${CLIENT}
 
@@ -35,11 +35,11 @@ ${CLIENT}:	${NAME} ${OBJC}
 
 clean:
 	rm -rf ${OBJS} ${OBJC}
-	make clean -C ./utils
+	make clean -C ./../utils
 
 fclean:		clean
 	rm -rf ${NAME} ${CLIENT} ${SERVER}
-	make fclean -C ./utils
+	make fclean -C ./../utils
 
 re:			fclean	all
 

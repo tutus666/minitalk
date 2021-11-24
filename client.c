@@ -1,16 +1,15 @@
 #include "includes/minitalk.h"
-#include <stdio.h>
 
-int	send_data(int pid, char *s)
+static int	send_data(int pid, char *s)
 {
-	int	bytepos;
+	int	bit;
 
 	while (*s)
 	{
-		bytepos = -1;
-		while (++bytepos < 8)
+		bit = -1;
+		while (++bit < 8)
 		{
-			if (*s >> bytepos & 1)
+			if (*s >> bit & 1)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
@@ -18,7 +17,7 @@ int	send_data(int pid, char *s)
 		}
 		s++;
 	}
-	while (bytepos--)
+	while (bit--)
 	{
 		kill(pid, SIGUSR1);
 		usleep(10);
@@ -26,12 +25,22 @@ int	send_data(int pid, char *s)
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac == 3)
 	{
-		printf("pid = %d s = %s\n", ft_atoi(av[1]), av[2]);
-		send_data(ft_atoi(av[1]), av[2]);
+		if (ft_atoi(av[1]) > 0 && kill(ft_atoi(av[1]), 0) == 0)
+			send_data(ft_atoi(av[1]), av[2]);
+		else
+		{
+			ft_putstr_fd("Error: invalid PID\n", 1);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		ft_putstr_fd("Error: invalid number of arguments\n", 1);
+		exit(EXIT_FAILURE);
 	}
 	return (0);
 }

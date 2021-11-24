@@ -1,6 +1,6 @@
 #include "includes/minitalk.h"
 
-static	int	add_char_to_str(char c, int byte)
+static void	add_char(char c, int byte)
 {
 	static char	*s;
 
@@ -8,7 +8,7 @@ static	int	add_char_to_str(char c, int byte)
 	{
 		s = malloc(2);
 		if (!s)
-			return (-1);
+			exit(EXIT_FAILURE);
 		s[byte] = c;
 		s[byte + 1] = 0;
 	}
@@ -16,11 +16,12 @@ static	int	add_char_to_str(char c, int byte)
 	{
 		s = ft_strjoin(s, c);
 		if (!s)
-			return (-1);
+			exit(EXIT_FAILURE);
 	}
 	if (!s[byte])
 	{
-		printf("%s\n", s);
+		ft_putstr_fd(s, 1);
+		ft_putstr_fd("\n", 1);
 		free(s);
 	}
 	return (0);
@@ -30,7 +31,7 @@ static void	signal_handler(int sig)
 {
 	static int	bit = 0;
 	static int	byte = 0;
-	char	c;
+	char		c;
 
 	if (!bit)
 		c = 0;
@@ -39,17 +40,16 @@ static void	signal_handler(int sig)
 	if (++bit && bit == 8)
 	{
 		bit = 0;
-		add_char_to_str(c, byte);
+		add_char(c, byte);
+		byte++;
 		if (!c)
 			byte = 0;
-		else
-			byte++;
 	}
 }
 
-int		main()
+int	main(void)
 {
-	struct sigaction s;
+	struct sigaction	s;
 
 	s.sa_handler = signal_handler;
 	sigemptyset(&s.sa_mask);

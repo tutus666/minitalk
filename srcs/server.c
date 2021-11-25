@@ -1,6 +1,6 @@
 #include "../includes/minitalk.h"
 
-static void	add_char(char c, int byte)
+static void	add_char(char c, int byte, siginfo_t *siginfo)
 {
 	static char	*s;
 
@@ -20,18 +20,22 @@ static void	add_char(char c, int byte)
 	}
 	if (!s[byte])
 	{
+		ft_putstr_fd("Data from client ", 1);
+		ft_putnbr_fd(siginfo->si_pid, 1);
+		ft_putstr_fd(" well received :\n", 1);
 		ft_putstr_fd(s, 1);
 		ft_putstr_fd("\n", 1);
 		free(s);
 	}
 }
 
-static void	signal_handler(int sig)
+static void	signal_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	static int	bit = 0;
 	static int	byte = 0;
 	char		c;
 
+	(void)context;
 	if (!bit)
 		c = 0;
 	if (sig == SIGUSR2)
@@ -39,7 +43,7 @@ static void	signal_handler(int sig)
 	if (++bit && bit == 8)
 	{
 		bit = 0;
-		add_char(c, byte);
+		add_char(c, byte, siginfo);
 		byte++;
 		if (!c)
 			byte = 0;
@@ -50,14 +54,22 @@ int	main(void)
 {
 	struct sigaction	s;
 
-	s.sa_handler = signal_handler;
+	s.sa_sigaction = signal_handler;
+	s.sa_flags = SA_SIGINFO;
 	sigemptyset(&s.sa_mask);
-	s.sa_flags = 0;
 	ft_putstr_fd("Server's PID : ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putstr_fd("\n", 1);
-	sigaction(SIGUSR1, &s, NULL);
-	sigaction(SIGUSR2, &s, NULL);
+	if (sigaction(SIGUSR1, &s, NULL) < 0)
+	{
+		ft_putstr_fd("Error : sigaction failed", 1);
+		exit(EXIT_FAILURE);
+	}
+	if (sigaction(SIGUSR2, &s, NULL) < 0)
+	{
+		ft_putstr_fd("Error : sigaction failed", 1);
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 		pause();
 	return (0);

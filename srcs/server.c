@@ -20,9 +20,9 @@ static void	add_char(char c, int byte, siginfo_t *siginfo)
 	}
 	if (!s[byte])
 	{
-		ft_putstr_fd("Data from client ", 1);
+		ft_putstr_fd("Client ", 1);
 		ft_putnbr_fd(siginfo->si_pid, 1);
-		ft_putstr_fd(" well received :\n", 1);
+		ft_putstr_fd(" : ", 1);
 		ft_putstr_fd(s, 1);
 		ft_putstr_fd("\n", 1);
 		free(s);

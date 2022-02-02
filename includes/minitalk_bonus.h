@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: armansuy <armansuy@student.42nice.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 14:37:22 by armansuy          #+#    #+#             */
-/*   Updated: 2021/11/29 14:37:25 by armansuy         ###   ########.fr       */
+/*   Created: 2021/11/29 16:12:47 by armansuy          #+#    #+#             */
+/*   Updated: 2021/11/29 16:12:49 by armansuy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
-{
-	int	sign;
-	int	nb;
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 
-	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
-		str++;
-	sign = 1;
-	if (*str == '-')
-		sign = -1;
-	if (*str == '+' || *str == '-')
-		str++;
-	nb = 0;
-	while (*str >= '0' && *str <= '9')
-		nb = nb * 10 - 48 + *str++;
-	return (nb * sign);
-}
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <signal.h>
+
+int		ft_str_is_digit(char *str);
+int		ft_atoi(const char *str);
+char	*ft_strjoin(const char *s, const char c);
+size_t	ft_strlen(const char *str);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstr_fd(char *s, int fd);
+#endif

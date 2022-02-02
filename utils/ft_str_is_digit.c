@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_str_is_digit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: armansuy <armansuy@student.42nice.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 14:37:22 by armansuy          #+#    #+#             */
-/*   Updated: 2021/11/29 14:37:25 by armansuy         ###   ########.fr       */
+/*   Created: 2021/11/29 15:19:41 by armansuy          #+#    #+#             */
+/*   Updated: 2021/11/29 15:45:28 by armansuy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
-{
-	int	sign;
-	int	nb;
+#include "../includes/minitalk.h"
 
-	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
+int	ft_str_is_digit(char *str)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (0);
 		str++;
-	sign = 1;
-	if (*str == '-')
-		sign = -1;
-	if (*str == '+' || *str == '-')
-		str++;
-	nb = 0;
-	while (*str >= '0' && *str <= '9')
-		nb = nb * 10 - 48 + *str++;
-	return (nb * sign);
+	}
+	return (1);
 }

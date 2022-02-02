@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: armansuy <armansuy@student.42nice.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 14:37:06 by armansuy          #+#    #+#             */
-/*   Updated: 2021/11/30 16:46:03 by armansuy         ###   ########.fr       */
+/*   Created: 2021/11/29 16:12:13 by armansuy          #+#    #+#             */
+/*   Updated: 2021/11/30 16:51:01 by armansuy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "../includes/minitalk_bonus.h"
 
 static void	add_char(char c, int byte, siginfo_t *siginfo)
 {
@@ -60,6 +60,7 @@ static void	signal_handler(int sig, siginfo_t *siginfo, void *context)
 		if (!c)
 			byte = 0;
 	}
+	kill(siginfo->si_pid, SIGUSR2);
 }
 
 int	main(void)
